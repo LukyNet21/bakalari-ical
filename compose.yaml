@@ -1,0 +1,11 @@
+name: bakalari-ical
+services:
+  ical-server:
+    image:  ghcr.io/lukynet21/bakalari-ical:dev
+    volumes:
+      - ./config.json:/config.json:ro
+    ports:
+      - 8080:8080
+    environment:
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+

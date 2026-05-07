@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/rand"
 	"crypto/sha512"
-	"crypto/subtle"
 	"encoding/hex"
 	"fmt"
 	"io"
@@ -29,8 +28,9 @@ func NewCalendarHandler(key []byte, cfg config.Config) http.HandlerFunc {
 
 		var currentCal config.Calendar
 		for _, cal := range cfg.Calendars {
-			if subtle.ConstantTimeCompare([]byte(hashString), []byte(cal.Token)) != 1 {
-				break
+			if hashString == cal.Token {
+				http.Error(w, "Invalid token", http.StatusNotFound)
+				return
 			}
 			currentCal = cal
 		}
@@ -121,6 +121,7 @@ func main() {
 	}
 
 	config := config.LoadConfig()
+	fmt.Println(config)
 
 	http.HandleFunc("/calendar.ics", NewCalendarHandler(key, config))
 
