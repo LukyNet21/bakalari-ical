@@ -20,4 +20,5 @@ COPY --from=build --chown=gorun:gorun /newkey /newkey
 
 USER gorun
 
+EXPOSE 8080
 CMD ["/server"]
