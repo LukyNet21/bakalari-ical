@@ -6,10 +6,10 @@ import (
 	ics "github.com/arran4/golang-ical"
 )
 
-func buildCalendar(l []Lesson) string {
+func buildCalendar(l []Lesson, name string) string {
 	cal := ics.NewCalendar()
 	cal.SetMethod(ics.MethodPublish)
-	cal.SetName("Školní rozvrh")
+	cal.SetName(name)
 	for i, lesson := range l {
 		e := cal.AddEvent(fmt.Sprintf("bakalari-%d-%d", lesson.Start.Unix(), i))
 		e.SetStartAt(lesson.Start)
