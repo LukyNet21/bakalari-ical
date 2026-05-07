@@ -1,7 +1,7 @@
 name: bakalari-ical
 services:
   ical-server:
-    image:  ghcr.io/lukynet21/bakalari-ical:dev
+    image:  ghcr.io/lukynet21/bakalari-ical:latest
     volumes:
       - ./config.json:/config.json:ro
     ports:

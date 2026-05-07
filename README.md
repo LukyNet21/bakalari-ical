@@ -22,7 +22,7 @@ curl -O https://raw.githubusercontent.com/LukyNet21/bakalari-ical/main/compose.y
 
 ### 2. Generate encryption key
 ```bash
-export ENCRYPTION_KEY=$(docker run --rm ghcr.io/lukynet21/bakalari-ical:dev /newkey | tail -1)
+export ENCRYPTION_KEY=$(docker run --rm ghcr.io/lukynet21/bakalari-ical:latest /newkey | tail -1)
 echo "ENCRYPTION_KEY=$ENCRYPTION_KEY" > .env
 ```
 
@@ -36,7 +36,7 @@ echo '{"calendars":[]}' > config.json
 docker run -it --rm \
   -e ENCRYPTION_KEY="$ENCRYPTION_KEY" \
   -v $(pwd)/config.json:/config.json \
-  ghcr.io/lukynet21/bakalari-ical:dev /newcal
+  ghcr.io/lukynet21/bakalari-ical:latest /newcal
 ```
 
 Follow the prompts to add your calendar credentials.
@@ -57,7 +57,7 @@ source .env
 docker run -it --rm \
   -e ENCRYPTION_KEY="$ENCRYPTION_KEY" \
   -v $(pwd)/config.json:/config.json \
-  ghcr.io/lukynet21/bakalari-ical:dev /newcal
+  ghcr.io/lukynet21/bakalari-ical:latest /newcal
 ```
 
 ## Using Your Calendar
