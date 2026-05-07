@@ -1,11 +1,9 @@
 package main
 
 import (
-	"crypto/rand"
 	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -104,12 +102,7 @@ func main() {
 	keyHex := os.Getenv("ENCRYPTION_KEY")
 
 	if keyHex == "" {
-		key = make([]byte, chacha20poly1305.KeySize)
-		if _, err := io.ReadFull(rand.Reader, key); err != nil {
-			log.Fatalln("key generation error:", err)
-		}
-		fmt.Printf("Key not provided. Using newly generated key: %x\n", key)
-		fmt.Println("SAVE THIS KEY to the ENCRYPTION_KEY environment variable for future use.")
+		log.Fatalln("ENCRYPTION_KEY not provided, please provide it wihtin an environment variable")
 	} else {
 		key, err = hex.DecodeString(keyHex)
 		if err != nil {
@@ -121,7 +114,6 @@ func main() {
 	}
 
 	config := config.LoadConfig()
-	fmt.Println(config)
 
 	http.HandleFunc("/calendar.ics", NewCalendarHandler(key, config))
 
