@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -24,18 +23,16 @@ func login(baseURL, username, password string) (string, error) {
 	data.Set("username", username)
 	data.Set("password", password)
 
-	client := &http.Client{}
 	r, err := http.NewRequest("POST", loginURL, strings.NewReader(data.Encode()))
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
-	res, err := client.Do(r)
 	if err != nil {
 		return "", err
 	}
-	log.Println(res.Status)
+	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	res, err := httpClient.Do(r)
+	if err != nil {
+		return "", err
+	}
 	defer res.Body.Close()
 
 	var decodedLoginRes loginResponse

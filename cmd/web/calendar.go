@@ -15,7 +15,10 @@ func buildCalendar(l []Lesson, name string) string {
 		e.SetStartAt(lesson.Start)
 		e.SetEndAt(lesson.End)
 
-		summary := lesson.Name
+		summary := lesson.Abbrev
+		if lesson.Name != "" {
+			summary = lesson.Name
+		}
 		description := fmt.Sprintf("Vyučující: %s", lesson.Teacher)
 
 		if lesson.Room != "" {

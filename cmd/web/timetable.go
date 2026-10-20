@@ -97,6 +97,7 @@ type Cycle struct {
 type Lesson struct {
 	Start      time.Time
 	End        time.Time
+	Abbrev     string
 	Name       string
 	Teacher    string
 	Room       string
@@ -111,8 +112,7 @@ func getTimetable(baseURL, accessToken string, targetDate time.Time) (*Timetable
 	}
 	r.Header.Add("Authorization", "Bearer "+accessToken)
 
-	client := &http.Client{}
-	res, err := client.Do(r)
+	res, err := httpClient.Do(r)
 	if err != nil {
 		return nil, err
 	}
@@ -191,6 +191,7 @@ func parseTimetable(t Timetable) ([]Lesson, error) {
 			if atom.SubjectId != nil {
 				if subject, ok := subjects[*atom.SubjectId]; ok {
 					lesson.Name = subject.Name
+					lesson.Abbrev = subject.Abbrev
 				} else {
 					lesson.Name = *atom.SubjectId
 				}
